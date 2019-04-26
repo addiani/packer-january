@@ -19,11 +19,14 @@
             "sudo unzip latest.zip",
             "sudo rsync -avP ~/wordpress/ /var/www/html/",
             "sudo chown -R apache:apache /var/www/htmal/*"
-        ],
+              ]
+           },
+           { 
         "type": "file",
         "source": "test_file",
         "destination": "/tmp/test_file"
-    }]   
+            }
+    ]   
     
     }    
 
