@@ -1,16 +1,19 @@
 {
     "variables": {
       "wordpress_version": "",
-      "instance_type": ""
+      "instance_type": "",
+      "ami": "",
+      "region": "",
+      "ssh_username": ""
     },
 
     "builders": [{
       "type": "amazon-ebs",
-      "region": "us-east-1",
-      "source_ami": "ami-0de53d8956e8dcf80",
+      "region": "{{user `region`}}",
+      "source_ami": "{{user `ami`}}",
       "instance_type": "{{user `instance_type`}}",
-      "ssh_username": "ec2-user",
-      "ami_name": "updated_ami {{timestamp}}"
+      "ssh_username": "{{user `username`}}",
+      "ami_name": "wordpress-{{user `wordpress_version`}}"
     }],
     "provisioners": [{
         "type": "shell",
@@ -19,8 +22,8 @@
             "sudo yum install php php-mysql -y",
             "sudo yum install mysql mariadb-server httpd -y",
             "yum install wget -y",
-            "sudo wget https://wordpress.org/${{user `wordpress_version`}}.zip",
-            "sudo unzip ${{user `wordpress_version`}}.zip",
+            "sudo wget https://wordpress.org/wordpress-{{user `wordpress_version`}}.zip",
+            "sudo unzip wordpress-{{user `wordpress_version`}}.zip",
             "sudo rsync -avP ~/wordpress/ /var/www/html/",
             "sudo chown -R apache:apache /var/www/htmal/*",
             "sudo systemctl enable httpd"
